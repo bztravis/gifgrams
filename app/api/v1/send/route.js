@@ -34,7 +34,7 @@ export async function POST(req) {
 
   let errorSending = supabaseError;
 
-  const sgPromises = body.card_data.recipients.map(({ email }) => {
+  const sgPromises = body.card_data.recipients.map(({ email }, index) => {
     const msg = {
       to: email,
       from: 'noreply@gifgrams.com',
@@ -43,7 +43,7 @@ export async function POST(req) {
       html: formatReceiverEmail(
         profile.full_name,
         body.card_data.title,
-        `https://gifgrams.com/${body.id}`
+        `https://gifgrams.com/${cardsToInsert[index].id}`
       ),
     };
     return sgMail.send(msg);
